@@ -1,0 +1,30 @@
+{
+	"name": "@isopodlabs/markdown",
+	"version": "0.0.0",
+	"description": "Self contained package for Markdown reading, writing and manipulation.",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/adrianstephens/ts-markdown.git"
+	},
+	"main": "dist/markdown.js",
+	"files": [
+		"dist/**/*.{js,d.ts}",
+		"README.md"
+	],
+	"scripts": {
+		"build": "tsc",
+		"watch": "tsc -watch -p ./",
+		"lint": "eslint \"src/**/*.ts\""
+	},
+	"keywords": [
+		"markdown",
+		"parser",
+		"typescript"
+	],
+	"author": "Adrian Stephens",
+	"license": "MIT",
+	"devDependencies": {
+		"eslint": "^9.21.0",
+		"typescript-eslint": "^8.26.0"
+	}
+}
