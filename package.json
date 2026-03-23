@@ -14,6 +14,7 @@
 	"scripts": {
 		"build": "tsc",
 		"watch": "tsc -watch -p ./",
+		"link": "npm link @isopodlabs/utilities @isopodlabs/xml",
 		"lint": "eslint \"src/**/*.ts\""
 	},
 	"keywords": [
@@ -26,5 +27,9 @@
 	"devDependencies": {
 		"eslint": "^9.21.0",
 		"typescript-eslint": "^8.26.0"
+	},
+	"dependencies": {
+		"@isopodlabs/utilities": "^1.9.0",
+		"@isopodlabs/xml": "^1.2.0"
 	}
 }

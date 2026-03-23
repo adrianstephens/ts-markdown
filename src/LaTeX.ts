@@ -1,4 +1,4 @@
-import {StringParser} from "./utils"
+import {StringParser} from "@isopodlabs/utilities";
 import * as xml from "@isopodlabs/xml";
 
 type Node1 = string | xml.Element;
@@ -79,7 +79,7 @@ function char(p: StringParser): string {
 		throw new Error("syntax");
 	}
 	if (p.skip('\\')) {
-		const name = p.match(/^([a-zA-Z]+|.)/)
+		const name = p.match(/^([a-zA-Z]+|.)/);
 		if (name && macros[name]) {
 			const exp = macros[name](p);
 			if (typeof(exp) === 'string')
@@ -98,7 +98,7 @@ function primes(primes?: string) {
 
 function leaf(p: StringParser): Node {
 	if (p.skip('\\')) {
-		const name = p.match(/^([a-zA-Z]+|.)/)
+		const name = p.match(/^([a-zA-Z]+|.)/);
 		if (name && macros[name])
 			return macros[name](p);
 		throw new Error("syntax");
@@ -116,11 +116,11 @@ function leaf(p: StringParser): Node {
 }
 
 function term(p: StringParser): Node[] | undefined {
-	let arg1 = leaf(p);
+	const arg1 = leaf(p);
 	if (arg1) {
 		const nodes: Node[] = [arg1];
 		let arg2;
-		while (arg2 = leaf(p))
+		while ((arg2 = leaf(p)))
 			nodes.push(arg2);
 		return nodes;
 	}
@@ -234,259 +234,259 @@ const macros: Record<string, (p: StringParser)=> Node> = {
 //	\ddddot{a}[note 1]	
 //	\stackrel\frown{AAA}		A	A	A	⌢	 
 
-	'c':				p => 'ç',
-	'k':				p => 'ą',	// ogonek
-	'l':				p => 'ł',	// barred l (l with stroke)
-	'o':				p => 'ø',	// slashed o (o with stroke)
-	'i':				p => 'ı',	// dotless i (i without tittle)
-	'%':				p => '%',
-	'$':				p => '$',
-	'{':				p => '{',
-	'_':				p => '_',
-	'P':				p => '¶',
-	'#':				p => '#',
-	'&':				p => '&',
-	'}':				p => '}',
-	'S':				p => '§',
+	'c':				() => 'ç',
+	'k':				() => 'ą',	// ogonek
+	'l':				() => 'ł',	// barred l (l with stroke)
+	'o':				() => 'ø',	// slashed o (o with stroke)
+	'i':				() => 'ı',	// dotless i (i without tittle)
+	'%':				() => '%',
+	'$':				() => '$',
+	'{':				() => '{',
+	'_':				() => '_',
+	'P':				() => '¶',
+	'#':				() => '#',
+	'&':				() => '&',
+	'}':				() => '}',
+	'S':				() => '§',
 
-	parallel:			p => '∥',
-	nparallel:			p => '∦',
-	doteq:				p => '≐',
-	asymp:				p => '≍',
-	bowtie:				p => '⋈',
-	ll:					p => '≪',
-	gg:					p => '≫',
-	equiv:				p => '≡',
-	vdash:				p => '⊢',
-	dashv:				p => '⊣',
-	subset:				p => '⊂',
-	supset:				p => '⊃',
-	approx:				p => '≈',
-	in:					p => '∈',
-	ni:					p => '∋',
-	subseteq:			p => '⊆',
-	supseteq:			p => '⊇',
-	cong:				p => '≅',
-	smile:				p => '⌣',
-	frown:				p => '⌢',
-	nsubseteq:			p => '⊈',
-	nsupseteq:			p => '⊉',
-	simeq:				p => '≃',
-	models:				p => '⊨',
-	notin:				p => '∉',
-	sqsubset:			p => '⊏',
-	sqsupset:			p => '⊐',
-	sim:				p => '∼',
-	perp:				p => '⊥',
-	mid:				p => '∣',
-	sqsubseteq:			p => '⊑',
-	sqsupseteq:			p => '⊒',
-	propto:				p => '∝',
-	prec:				p => '≺',
-	succ:				p => '≻',
-	preceq:				p => '⪯',
-	succeq:				p => '⪰',
-	sphericalangle:		p => '∢',
-	measuredangle:		p => '∡',
-	therefore:			p => '∴',
-	because:			p => '∵',
-	ddag:				p => '‡',
-	textbar:			p => '|',
-	textless:			p => '<',
-	textgreater:		p => '>',
-	textasciitilde:		p => '~',
-	textvisiblespace:	p => ' ',
-	textendash:			p => '–',
-	texttrademark:		p => '™',
-	textexclamdown:		p => '¡',
-	pounds:				p => '£',
-	dag:				p => '†',
-	textbackslash:		p => '\\',
-	textemdash:			p => '—',
-	textregistered:		p => '®',
-	textquestiondown:	p => '¿',
-	copyright:			p => '©',
+	parallel:			() => '∥',
+	nparallel:			() => '∦',
+	doteq:				() => '≐',
+	asymp:				() => '≍',
+	bowtie:				() => '⋈',
+	ll:					() => '≪',
+	gg:					() => '≫',
+	equiv:				() => '≡',
+	vdash:				() => '⊢',
+	dashv:				() => '⊣',
+	subset:				() => '⊂',
+	supset:				() => '⊃',
+	approx:				() => '≈',
+	in:					() => '∈',
+	ni:					() => '∋',
+	subseteq:			() => '⊆',
+	supseteq:			() => '⊇',
+	cong:				() => '≅',
+	smile:				() => '⌣',
+	frown:				() => '⌢',
+	nsubseteq:			() => '⊈',
+	nsupseteq:			() => '⊉',
+	simeq:				() => '≃',
+	models:				() => '⊨',
+	notin:				() => '∉',
+	sqsubset:			() => '⊏',
+	sqsupset:			() => '⊐',
+	sim:				() => '∼',
+	perp:				() => '⊥',
+	mid:				() => '∣',
+	sqsubseteq:			() => '⊑',
+	sqsupseteq:			() => '⊒',
+	propto:				() => '∝',
+	prec:				() => '≺',
+	succ:				() => '≻',
+	preceq:				() => '⪯',
+	succeq:				() => '⪰',
+	sphericalangle:		() => '∢',
+	measuredangle:		() => '∡',
+	therefore:			() => '∴',
+	because:			() => '∵',
+	ddag:				() => '‡',
+	textbar:			() => '|',
+	textless:			() => '<',
+	textgreater:		() => '>',
+	textasciitilde:		() => '~',
+	textvisiblespace:	() => ' ',
+	textendash:			() => '–',
+	texttrademark:		() => '™',
+	textexclamdown:		() => '¡',
+	pounds:				() => '£',
+	dag:				() => '†',
+	textbackslash:		() => '\\',
+	textemdash:			() => '—',
+	textregistered:		() => '®',
+	textquestiondown:	() => '¿',
+	copyright:			() => '©',
 
 //macros.textsuperscript	= p => '{a}	Xa	a
 //macros.textcircled		= p => '{a}	n/a	ⓐ
 
 //Binary Operations
-	cap:				p => '∩',
-	diamond:			p => '⋄',
-	oplus:				p => '⊕',
-	cup:				p => '∪',
-	bigtriangleup:		p => '△',
-	ominus:				p => '⊖',
-	times:				p => '×',
-	uplus:				p => '⊎',
-	bigtriangledown:	p => '▽',
-	otimes:				p => '⊗',
-	div:				p => '÷',
-	sqcap:				p => '⊓',
-	triangleleft:		p => '◃',
-	oslash:				p => '⊘',
-	ast:				p => '∗',
-	sqcup:				p => '⊔',
-	triangleright:		p => '▹',
-	odot:				p => '⊙',
-	star:				p => '⋆',
-	vee:				p => '∨',
-	bigcirc:			p => '◯',
-	circ:				p => '∘',
-	dagger:				p => '†',
-	wedge:				p => '∧',
-	bullet:				p => '∙',
-	setminus:			p => '∖',
-	ddagger:			p => '‡',
-	cdot:				p => '⋅',
-	wr:					p => '≀',
-	amalg:				p => '⨿',
+	cap:				() => '∩',
+	diamond:			() => '⋄',
+	oplus:				() => '⊕',
+	cup:				() => '∪',
+	bigtriangleup:		() => '△',
+	ominus:				() => '⊖',
+	times:				() => '×',
+	uplus:				() => '⊎',
+	bigtriangledown:	() => '▽',
+	otimes:				() => '⊗',
+	div:				() => '÷',
+	sqcap:				() => '⊓',
+	triangleleft:		() => '◃',
+	oslash:				() => '⊘',
+	ast:				() => '∗',
+	sqcup:				() => '⊔',
+	triangleright:		() => '▹',
+	odot:				() => '⊙',
+	star:				() => '⋆',
+	vee:				() => '∨',
+	bigcirc:			() => '◯',
+	circ:				() => '∘',
+	dagger:				() => '†',
+	wedge:				() => '∧',
+	bullet:				() => '∙',
+	setminus:			() => '∖',
+	ddagger:			() => '‡',
+	cdot:				() => '⋅',
+	wr:					() => '≀',
+	amalg:				() => '⨿',
 
 //Delimiters
-	'|':				p => '‖',
-	backslash:			p => '∖',
-	langle:				p => '⟨',
-	rangle:				p => '⟩',
-	uparrow:			p => '↑',
-	Uparrow:			p => '⇑',
-	lceil:				p => '⌈',
-	rceil:				p => '⌉',
-	downarrow:			p => '↓',
-	Downarrow:			p => '⇓',
-	lfloor:				p => '⌊',
-	rfloor:				p => '⌋',
+	'|':				() => '‖',
+	backslash:			() => '∖',
+	langle:				() => '⟨',
+	rangle:				() => '⟩',
+	uparrow:			() => '↑',
+	Uparrow:			() => '⇑',
+	lceil:				() => '⌈',
+	rceil:				() => '⌉',
+	downarrow:			() => '↓',
+	Downarrow:			() => '⇓',
+	lfloor:				() => '⌊',
+	rfloor:				() => '⌋',
 
 //Greek
-	alpha:				p => identifier('α'),	//U+03B1
-	beta:				p => identifier('β'),	//U+03B2
-	gamma:				p => identifier('γ'),	//U+03B3
-	delta:				p => identifier('δ'),	//U+03B4
-	epsilon:			p => identifier('ε'),	//U+03B5
-	zeta:				p => identifier('ζ'),	//U+03B6
-	eta:				p => identifier('η'),	//U+03B7
-	theta:				p => identifier('θ'),	//U+03B8
-	iota:				p => identifier('ι'),	//U+03B9
-	kappa:				p => identifier('κ'),	//U+03BA
-	lamda:				p => identifier('λ'),	//U+03BB
-	mu:					p => identifier('μ'),	//U+03BC
-	nu:					p => identifier('ν'),	//U+03BD
-	xi:					p => identifier('ξ'),	//U+03BE
-	omicron:			p => identifier('ο'),	//U+03BF
-	pi:					p => identifier('π'),	//U+03C0
-	rho:				p => identifier('ρ'),	//U+03C1
-	sigma:				p => identifier('σ'),	//U+03C3
-	tau:				p => identifier('τ'),	//U+03C4
-	upsilon:			p => identifier('υ'),	//U+03C5
-	phi:				p => identifier('φ'),	//U+03C6
-	chi:				p => identifier('χ'),	//U+03C7
-	psi:				p => identifier('ψ'),	//U+03C8
-	omega:				p => identifier('ω'),	//U+03C9
+	alpha:				() => identifier('α'),	//U+03B1
+	beta:				() => identifier('β'),	//U+03B2
+	gamma:				() => identifier('γ'),	//U+03B3
+	delta:				() => identifier('δ'),	//U+03B4
+	epsilon:			() => identifier('ε'),	//U+03B5
+	zeta:				() => identifier('ζ'),	//U+03B6
+	eta:				() => identifier('η'),	//U+03B7
+	theta:				() => identifier('θ'),	//U+03B8
+	iota:				() => identifier('ι'),	//U+03B9
+	kappa:				() => identifier('κ'),	//U+03BA
+	lamda:				() => identifier('λ'),	//U+03BB
+	mu:					() => identifier('μ'),	//U+03BC
+	nu:					() => identifier('ν'),	//U+03BD
+	xi:					() => identifier('ξ'),	//U+03BE
+	omicron:			() => identifier('ο'),	//U+03BF
+	pi:					() => identifier('π'),	//U+03C0
+	rho:				() => identifier('ρ'),	//U+03C1
+	sigma:				() => identifier('σ'),	//U+03C3
+	tau:				() => identifier('τ'),	//U+03C4
+	upsilon:			() => identifier('υ'),	//U+03C5
+	phi:				() => identifier('φ'),	//U+03C6
+	chi:				() => identifier('χ'),	//U+03C7
+	psi:				() => identifier('ψ'),	//U+03C8
+	omega:				() => identifier('ω'),	//U+03C9
 
-	//Alpha:			p => identifier('Α'),	//U+0391
-	//Beta:				p => identifier('Β'),	//U+0392
-	Gamma:				p => identifier('Γ'),	//U+0393
-	Delta:				p => identifier('Δ'),	//U+0394
-	//Epsilon:			p => identifier('Ε'),	//U+0395
-	//Zeta:				p => identifier('Ζ'),	//U+0396
-	//Eta:				p => identifier('Η'),	//U+0397
-	Theta:				p => identifier('Θ'),	//U+0398
-	//Iota:				p => identifier('Ι'),	//U+0399
-	//Kappa:			p => identifier('Κ'),	//U+039A
-	Lamda:				p => identifier('Λ'),	//U+039B
-	//Mu:				p => identifier('Μ'),	//U+039C
-	//Nu:				p => identifier('Ν'),	//U+039D
-	//Xi:				p => identifier('Ξ'),	//U+039E
-	//Omicron:			p => identifier('Ο'),	//U+039F
-	//Pi:				p => identifier('Π'),	//U+03A0
-	//Rho:				p => identifier('Ρ'),	//U+03A1
-	//Sigma:			p => identifier('Σ'),	//U+03A3
-	//Tau:				p => identifier('Τ'),	//U+03A4
-	Upsilon:			p => identifier('Υ'),	//U+03A5
-	Phi:				p => identifier('Φ'),	//U+03A6
-	//Chi:				p => identifier('Χ'),	//U+03A7
-	Psi:				p => identifier('Ψ'),	//U+03A8
-	Omega:				p => identifier('Ω'),	//U+03A9
+	//Alpha:			() => identifier('Α'),	//U+0391
+	//Beta:				() => identifier('Β'),	//U+0392
+	Gamma:				() => identifier('Γ'),	//U+0393
+	Delta:				() => identifier('Δ'),	//U+0394
+	//Epsilon:			() => identifier('Ε'),	//U+0395
+	//Zeta:				() => identifier('Ζ'),	//U+0396
+	//Eta:				() => identifier('Η'),	//U+0397
+	Theta:				() => identifier('Θ'),	//U+0398
+	//Iota:				() => identifier('Ι'),	//U+0399
+	//Kappa:			() => identifier('Κ'),	//U+039A
+	Lamda:				() => identifier('Λ'),	//U+039B
+	//Mu:				() => identifier('Μ'),	//U+039C
+	//Nu:				() => identifier('Ν'),	//U+039D
+	//Xi:				() => identifier('Ξ'),	//U+039E
+	//Omicron:			() => identifier('Ο'),	//U+039F
+	//Pi:				() => identifier('Π'),	//U+03A0
+	//Rho:				() => identifier('Ρ'),	//U+03A1
+	//Sigma:			() => identifier('Σ'),	//U+03A3
+	//Tau:				() => identifier('Τ'),	//U+03A4
+	Upsilon:			() => identifier('Υ'),	//U+03A5
+	Phi:				() => identifier('Φ'),	//U+03A6
+	//Chi:				() => identifier('Χ'),	//U+03A7
+	Psi:				() => identifier('Ψ'),	//U+03A8
+	Omega:				() => identifier('Ω'),	//U+03A9
 	
-	varpi:				p => 'ϖ',
-	varepsilon:			p => 'ε',
-	varrho:				p => 'ϱ',
-	varsigma:			p => 'ς',
-	vartheta:			p => 'ϑ',
-	varphi:				p => 'φ',
-	varkappa:			p => 'ϰ',
+	varpi:				() => 'ϖ',
+	varepsilon:			() => 'ε',
+	varrho:				() => 'ϱ',
+	varsigma:			() => 'ς',
+	vartheta:			() => 'ϑ',
+	varphi:				() => 'φ',
+	varkappa:			() => 'ϰ',
 
 //Math Symbols
-	pm:					p => '±',
-	mp:					p => '±',
-	forall:				p => '∀',
-	exists:				p => '∃',
-	neq:				p => '≠',
-	geq:				p => '≥',
-	leq:				p => '≤',
-	drawnr:				p => '□',
-	Z:					p => 'ℤ',
-	R:					p => 'ℝ',
-	nexists:			p => '∄',
-	rightarrow:			p => '→',
-	Rightarrow:			p => '⇒',
-	leftarrow:			p => '←',
-	leftrightarrow:		p => '↔',
-	Leftrightarrow:		p => '⇔',
-	mapsto:				p => '↦',
-	neg:				p => '¬',
-	implies:			p => '⟹',
-	impliedby:			p => '⟸',
-	iff:				p => '⟺',
-	land:				p => '∧',
-	top:				p => '⊤',
-	lor:				p => '∨',
-	bot:				p => '⊥',
-	angle:				p => '∠',
-	emptyset:			p => '∅',
-	rightleftharpoons:	p => '⇌',
+	pm:					() => '±',
+	mp:					() => '±',
+	forall:				() => '∀',
+	exists:				() => '∃',
+	neq:				() => '≠',
+	geq:				() => '≥',
+	leq:				() => '≤',
+	drawnr:				() => '□',
+	Z:					() => 'ℤ',
+	R:					() => 'ℝ',
+	nexists:			() => '∄',
+	rightarrow:			() => '→',
+	Rightarrow:			() => '⇒',
+	leftarrow:			() => '←',
+	leftrightarrow:		() => '↔',
+	Leftrightarrow:		() => '⇔',
+	mapsto:				() => '↦',
+	neg:				() => '¬',
+	implies:			() => '⟹',
+	impliedby:			() => '⟸',
+	iff:				() => '⟺',
+	land:				() => '∧',
+	top:				() => '⊤',
+	lor:				() => '∨',
+	bot:				() => '⊥',
+	angle:				() => '∠',
+	emptyset:			() => '∅',
+	rightleftharpoons:	() => '⇌',
 
-	infty:				p => '∞',
-	calP:				p => '℘',
-	ell:				p => 'ℓ',
-	partial:			p => '∂',
-	imath:				p => 'ı',
-	Re:					p => 'ℜ',
-	nabla:				p => '∇',
-	aleph:				p => 'ℵ',
-	eth:				p => 'ð',
-	jmath:				p => 'ȷ',
-	Im:					p => 'ℑ',
-	Box:				p => '◻',
-	beth:				p => 'ℶ',
-	hbar:				p => 'ℏ',
-	wp:					p => '℘',
-	gimel:				p => 'ℷ',
+	infty:				() => '∞',
+	calP:				() => '℘',
+	ell:				() => 'ℓ',
+	partial:			() => '∂',
+	imath:				() => 'ı',
+	Re:					() => 'ℜ',
+	nabla:				() => '∇',
+	aleph:				() => 'ℵ',
+	eth:				() => 'ð',
+	jmath:				() => 'ȷ',
+	Im:					() => 'ℑ',
+	Box:				() => '◻',
+	beth:				() => 'ℶ',
+	hbar:				() => 'ℏ',
+	wp:					() => '℘',
+	gimel:				() => 'ℷ',
 
-	zo:					p => '{0, 1}' ,
+	zo:					() => '{0, 1}' ,
 
-//	Exp:	p => 'Exp' ,
-//	P:	p => 'P' ,
-//	NP:	p => 'NP' ,
-//	Pr:	p => 'Pr' ,
-//	Enc:	p => 'Enc' ,
-//	Dec:	p => 'Dec' ,
-//	poly:	p => 'poly' ,
+//	Exp:	() => 'Exp' ,
+//	P:	() => 'P' ,
+//	NP:	() => 'NP' ,
+//	Pr:	() => 'Pr' ,
+//	Enc:	() => 'Enc' ,
+//	Dec:	() => 'Dec' ,
+//	poly:	() => 'poly' ,
 
 //Trigonometric Functions
-	sin:				p => func('sin'),
-	arcsin:				p => func('arcsin'),
-	sinh:				p => func('sinh'),
-	sec:				p => func('sec'),
-	cos:				p => func('cos'),
-	arccos:				p => func('arccos'),
-	cosh:				p => func('cosh'),
-	csc:				p => func('csc'),
-	tan:				p => func('tan'),
-	arctan:				p => func('arctan'),
-	tanh:				p => func('tanh'),
-	cot:				p => func('cot'),
-	arccot:				p => func('arccot'),
-	coth:				p => func('coth'),
+	sin:				() => func('sin'),
+	arcsin:				() => func('arcsin'),
+	sinh:				() => func('sinh'),
+	sec:				() => func('sec'),
+	cos:				() => func('cos'),
+	arccos:				() => func('arccos'),
+	cosh:				() => func('cosh'),
+	csc:				() => func('csc'),
+	tan:				() => func('tan'),
+	arctan:				() => func('arctan'),
+	tanh:				() => func('tanh'),
+	cot:				() => func('cot'),
+	arccot:				() => func('arccot'),
+	coth:				() => func('coth'),
 
 };
 
@@ -508,10 +508,9 @@ function matrix_row(p: StringParser) {
 
 macros.begin =	p => {
 	if (p.skip('{matrix}')) {
-		const node = make('matrix')
-		while (!p.match(/end{matrix}/)) {
+		const node = make('matrix');
+		while (!p.match(/end{matrix}/))
 			node.children.push(make('row', ...matrix_row(p)));
-		}
 		return node;
 	}
 };
@@ -527,7 +526,7 @@ macros.left		= p=> {
 	}
 
 	return make('span', left, ...nodes, char(p));
-}
+};
 
 macros.newcommand = p => {
     const commandName = p.match(/\\[a-zA-Z]+/);

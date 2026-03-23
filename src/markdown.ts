@@ -1,6 +1,7 @@
+/* eslint-disable no-control-regex */
 //import {Node as xmlNode, OutputOptions, EntityCreator, Element, Attributes, reENTITY, decodeEntity, removeEntities, defaultEntities, defaultEntityCreator} from "@isopodlabs/xml"
-import * as xml from "@isopodlabs/xml"
-import * as utils from "./utils"
+import * as utils from "@isopodlabs/utilities";
+import * as xml from "@isopodlabs/xml";
 
 const CODE_INDENT		= 4;
 
@@ -22,13 +23,13 @@ const ATTRIBUTE	 			= `(?:\\s+${ATTRIBUTENAME}${ATTRIBUTEVALUESPEC}?)`;
 const OPENTAG				= `<${TAGNAME}${ATTRIBUTE}*\\s*/?>`;
 const CLOSETAG				= `</${TAGNAME}\\s*[>]`;
 
-const HTMLCOMMENT   		= "<!-->|<!--->|<!--[\\s\\S]*?-->"
+const HTMLCOMMENT   		= "<!-->|<!--->|<!--[\\s\\S]*?-->";
 const PROCESSINGINSTRUCTION	= "[<][?][\\s\\S]*?[?][>]";
 const DECLARATION   		= "<![A-Za-z]+" + "[^>]*>";
 const CDATA	 				= "<!\\[CDATA\\[[\\s\\S]*?\\]\\]>";
 
 const reHtmlTag				= new RegExp(`^(?:${OPENTAG}|${CLOSETAG}|${HTMLCOMMENT}|${PROCESSINGINSTRUCTION}|${DECLARATION}|${CDATA})`);
-const reLinkLabel 			= /^\[(?:[^\\\[\]]|\\.){0,1000}\]/s;
+const reLinkLabel 			= /^\[(?:[^\\[\]]|\\.){0,1000}\]/s;
 const reSpnl 				= /^ *(?:\n *)?/;
 const reLinkDestBraces 		= /^(?:<(?:[^<>\n\\\x00]|\\.)*>)/;
 
@@ -88,7 +89,7 @@ function parseLinkDestination(parser: utils.StringParser) {
 		} else if (c === ')') {
 			if (openparens < 1)
 				break;
-			++parser.pos
+			++parser.pos;
 			--openparens;
 		} else {
 			if (isWhitespace(c))
@@ -244,7 +245,7 @@ class Code extends Inline {
 class Link extends Inline {
 	static {
 		const reAutolink 		= /^<[A-Za-z][A-Za-z0-9.+-]{1,31}:[^<>\x00-\x20]*>/i;
-		const reEmailAutolink	= /^<([a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*)>/;
+		const reEmailAutolink	= /^<([a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*)>/;
 		Inline.register('<',	parser =>  {
 			let m: string|undefined;
 			if ((m = parser.match(reEmailAutolink))) {
@@ -371,7 +372,7 @@ Inline.register(']',	parser => {
 		parser.match(reSpnl);
 		dest = parseLinkDestination(parser);
 		if (dest) {
-			parser.match(reSpnl)
+			parser.match(reSpnl);
 			// make sure there's a space before the title:
 			if (isWhitespace(parser.subject.charAt(parser.pos - 1)))
 				title = parseLinkTitle(parser);
@@ -429,7 +430,7 @@ Inline.register(']',	parser => {
 	// no match
 	parser.removeBracket(); // remove this opener from stack
 	parser.pos = startpos;
-	parser.addText(']')
+	parser.addText(']');
 	return true;
 });
 
@@ -469,8 +470,8 @@ Inline.register('-',	parser => {
 		if (m) {
 			const length = m[0].length;
 			const mod3 = length % 3;
-			let emCount = length % 2 == 0 ? 0 : length / 3 - (mod3 === 1 ? 1 : 0);
-			let enCount = length % 2 == 0 ? length / 2 : mod3 === 1 ? 2 : mod3 === 2 ? 1 : 0;
+			const emCount = length % 2 == 0 ? 0 : length / 3 - (mod3 === 1 ? 1 : 0);
+			const enCount = length % 2 == 0 ? length / 2 : mod3 === 1 ? 2 : mod3 === 2 ? 1 : 0;
 			parser.addText("\u2014".repeat(emCount) + "\u2013".repeat(enCount));
 			return true;
 		}
@@ -481,7 +482,7 @@ Inline.register('-',	parser => {
 //-----------------------------------------------------------------------------
 //	InlineParser
 //-----------------------------------------------------------------------------
-const rePunctuation		= /^[!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~\p{P}\p{S}]/u;
+const rePunctuation		= /^[!"#$%&'()*+,\-./:;<=>?@[\]\\^_`{|}~\p{P}\p{S}]/u;
 const reWhitespace 		= /^\s/;
 
 export class InlineParser extends utils.StringParser {
@@ -706,7 +707,7 @@ export class InlineParser extends utils.StringParser {
 	// Parse string content in block into inline children
 	parseInlines(block: Block) {
 		this.block		= block;
-		this.subject	= block.string_content.trim()
+		this.subject	= block.string_content.trim();
 		this.pos		= 0;
 		this.delimiters = undefined;
 		this.brackets 	= undefined;
@@ -727,8 +728,7 @@ export class InlineParser extends utils.StringParser {
 		let prevtext: Text | undefined;
 		const children = this.block.children;
 		this.block.children = [];
-		for (let i = 0; i < children.length; ++i) {
-			const child = children[i];
+		for (const child of children) {
 			if (child instanceof Text) {
 				if (prevtext) {
 					prevtext.literal += child.literal;
@@ -1170,7 +1170,7 @@ class ListData {
 	}
 
 	static parseListMarker(parser: BlockParser, paragraph: boolean) : ListData | undefined {
-		const match = parser.nonSpace().match(reListMarker)
+		const match = parser.nonSpace().match(reListMarker);
 	// if it interrupts paragraph, make sure first line isn't blank
 		if (match && (!paragraph || parser.subject.slice(parser.nextNonspace + match[0].length).match(reNonSpace))) {
 			const data	= new ListData(parser.indent);
@@ -1232,7 +1232,7 @@ export class ListNode extends Block {
 			}
 		}
 		return 0;
-	})}
+	});}
 
 	constructor(pos: SourcePos, public listData: ListData) {
 		super(listData.type === "bullet" ? "ul" : "ol", pos);
@@ -1366,7 +1366,7 @@ class BlockQuote extends Block {
 			return 1;
 		}
 		return 0;
-	})}
+	});}
 	
 	constructor(pos: SourcePos) {
 		super("blockquote", pos);
@@ -1395,7 +1395,7 @@ class ThematicBreak extends Block {
 			return 2;
 		}
 		return 0;
-	})}
+	});}
 
 	constructor(pos: SourcePos) {
 		super("hr", pos);
@@ -1501,7 +1501,7 @@ class CodeBlock extends Block {
 	}
 	acceptsLines()	{ return true; }
 	toString(options: any) {
-		return `<pre>${super.toString(options)}</pre>`
+		return `<pre>${super.toString(options)}</pre>`;
 	}
 }
 
@@ -1657,7 +1657,7 @@ class Table extends Block {
 
 		const row = new TableItem('tr');
 		head.appendChild(row);
-		putrow(row, lines[0], 'th', this.headerflags)
+		putrow(row, lines[0], 'th', this.headerflags);
 
 		const body = new TableItem('tbody');
 		this.appendChild(body);
@@ -1665,7 +1665,7 @@ class Table extends Block {
 			const row = new TableItem('tr');
 			body.appendChild(row);
 
-			putrow(row, i, 'td', this.headerflags)
+			putrow(row, i, 'td', this.headerflags);
 		}
 		this.string_content = '';
 	}
